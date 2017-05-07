@@ -13,7 +13,7 @@ Usage is very simple, you only need RoundcubeAutoLogin.php. the cookiejar.txt fi
 (you can rename it, but you have to rename it in the code as well). 
 
 1. Using from a php schript:
-Just include the class and include the following code to you php script:
+Just include the class and the following code in your php script:
 
 ```
     // set your roundcube domain path
@@ -30,7 +30,7 @@ Just include the class and include the following code to you php script:
 
 2. Using script as is:
 Just place the RoundcubeAutoLogin.php on your webserver, e.g. in the roundcube diretory,
-include this HTML form in you HMTL code and let it point where you places the script.
+include this form in you HMTL code and let it point to where you placed the script.
 
 ```
     <form action="http://domain.com/roundcube/RoundcubeAutoLogin.php" method="post" name="autologin">
