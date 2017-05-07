@@ -29,7 +29,7 @@ Just include the class and the following code in your php script:
 ```
 
 2. Using script as is:
-Just place the RoundcubeAutoLogin.php on your webserver, e.g. in the roundcube diretory,
+Just place the RoundcubeAutoLogin.php on your webserver, e.g. in the roundcube directory,
 include this form in you HMTL code and let it point to where you placed the script.
 
 ```
