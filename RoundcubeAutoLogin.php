@@ -102,6 +102,7 @@ class RoundcubeAutoLogin
      */
     public function redirect()
     {
+        unlink('cookiejar.txt');
         header('Location: ' . $this->_rc_link . '?task=mail');
     }
 
@@ -127,9 +128,26 @@ class RoundcubeAutoLogin
     }
 }
 
+/*
+ include this HTML form in you page and point it to your script location
+
+<form action="http://domain.com/roundcube/RoundcubeAutoLogin.php" method="post" name="autologin">
+  UserID <input name="rc_user" type="text" id="rc_user">
+  Passwort <input name="rc_pass" type="password" id="rc_pass">
+  <input type="submit" name="Submit" value="login">
+</form>
+
+*/
+
+// send parameters with post, its more secure because username and password not shown in browser and logfile
+$rcuser=$_REQUEST['rc_user'];
+$rcpass=$_REQUEST['rc_pass'];
+
+
 // set your roundcube domain path
 $rc = new RoundcubeAutoLogin('http://domain.com/roundcube/');
-$cookies = $rc->login('email', 'password');
+$cookies = $rc->login($rcuser, $rcpass);
+
 // now you can set the cookies with setcookie php function, or using any other function of a framework you are using
 foreach($cookies as $cookie_name => $cookie_value)
 {
