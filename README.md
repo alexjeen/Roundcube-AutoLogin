@@ -9,10 +9,13 @@ For this class to work, the RoundCube installation has to be on the same domain 
 
 # Usage
 
-Usage is very simple, you only need the cookiejar.txt file (you can rename it, but you have to rename it in the code as well). 
+Usage is very simple, you only need RoundcubeAutoLogin.php, cookiejar.txt is created and deleted on the fly.
+(you can rename it, but you have to rename it in the code as well). 
 
-Just include the class, and run the following code:
+1. Using from a php schript:
+Just include the class and the following code in your php script:
 
+```
     // set your roundcube domain path
     $rc = new RoundcubeAutoLogin('http://domain.com/roundcube/');
     $cookies = $rc->login('email', 'password');
@@ -23,8 +26,20 @@ Just include the class, and run the following code:
     }
     // and redirect to roundcube with the set cookies
     $rc->redirect();
+```
 
-You should be automatically redirected to your Roundcube installation and you should be logged in.
+2. Using script as is:
+Just place the RoundcubeAutoLogin.php on your webserver, e.g. in the roundcube directory,
+include this form in you HMTL code and let it point to where you placed the script.
+
+```
+    <form action="http://domain.com/roundcube/RoundcubeAutoLogin.php" method="post" name="autologin">
+        UserID <input name="rc_user" type="text" id="rc_user">
+        Passwort <input name="rc_pass" type="password" id="rc_pass">
+        <input type="submit" name="Submit" value="login">
+    </form>
+```
+In both cases you should be automatically redirected to your Roundcube installation and you should be logged in.
 
 # Contributing
 
