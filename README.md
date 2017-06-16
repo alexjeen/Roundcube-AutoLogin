@@ -12,7 +12,7 @@ For this class to work, the RoundCube installation has to be on the same domain 
 Usage is very simple, you only need RoundcubeAutoLogin.php, cookiejar.txt is created and deleted on the fly.
 (you can rename it, but you have to rename it in the code as well). 
 
-1. Using from a php schript:
+1. Using from a php script:
 Just include the class and the following code in your php script:
 
 ```
