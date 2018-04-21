@@ -149,11 +149,14 @@ $rc = new RoundcubeAutoLogin('http://domain.com/roundcube/');
 $cookies = $rc->login($rcuser, $rcpass);
 
 // now you can set the cookies with setcookie php function, or using any other function of a framework you are using
-foreach($cookies as $cookie_name => $cookie_value)
+if (!empty($cookies))
 {
-    setcookie($cookie_name, $cookie_value, 0, '/', '');
+    foreach($cookies as $cookie_name => $cookie_value)
+    {
+        setcookie($cookie_name, $cookie_value, 0, '/', '');
+    }
+    // and redirect to roundcube with the set cookies
+    $rc->redirect();
 }
-// and redirect to roundcube with the set cookies
-$rc->redirect();
 
 ?>
