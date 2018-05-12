@@ -14,6 +14,8 @@ class RoundcubeAutoLogin
     // roundcube link (with a trailing slash)
     private $_rc_link = '';
 
+    private $ch;
+
     /**
      * Creates a new RC object
      * @param $roundcube_link the roundcube link with a trailing slash
@@ -21,6 +23,7 @@ class RoundcubeAutoLogin
     public function __construct($roundcube_link)
     {
         $this->_rc_link = $roundcube_link;
+        $this->ch = curl_init();
     }
 
     /**
@@ -54,15 +57,15 @@ class RoundcubeAutoLogin
                 '_pass' => $password
             );
 
-            $ch = curl_init($this->_rc_link . '?_task=login');
-            curl_setopt($ch, CURLOPT_COOKIEFILE, 'cookiejar.txt');
-            curl_setopt($ch, CURLOPT_POST, TRUE);
-            curl_setopt($ch, CURLOPT_HEADER, TRUE);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_params));
-            $response = curl_exec($ch);
-            $response_info = curl_getinfo($ch);
-            curl_close($ch);
+            curl_setopt($this->ch, CURLOPT_URL, $this->_rc_link . '?_task=login');
+            curl_setopt($this->ch, CURLOPT_COOKIEFILE, '');
+            curl_setopt($this->ch, CURLOPT_COOKIEJAR, '');
+            curl_setopt($this->ch, CURLOPT_POST, TRUE);
+            curl_setopt($this->ch, CURLOPT_HEADER, TRUE);
+            curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($post_params));
+            $response = curl_exec($this->ch);
+            $response_info = curl_getinfo($this->ch);
 
             if($response_info['http_code'] == 302)
             {
@@ -102,7 +105,6 @@ class RoundcubeAutoLogin
      */
     public function redirect()
     {
-        unlink('cookiejar.txt');
         header('Location: ' . $this->_rc_link . '?task=mail');
     }
 
@@ -111,11 +113,11 @@ class RoundcubeAutoLogin
      */
     private function _get_token()
     {
-        $ch = curl_init($this->_rc_link);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookiejar.txt');
-        $response = curl_exec($ch);
-        curl_close($ch);
+        curl_setopt($this->ch, CURLOPT_URL, $this->_rc_link);
+        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($this->ch, CURLOPT_COOKIEFILE, '');
+        curl_setopt($this->ch, CURLOPT_COOKIEJAR, '');
+        $response = curl_exec($this->ch);
 
         preg_match('|<input type="hidden" name="_token" value="([A-z0-9]*)">|', $response, $matches);
 
