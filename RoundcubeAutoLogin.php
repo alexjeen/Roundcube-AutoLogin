@@ -51,7 +51,7 @@ class RoundcubeAutoLogin
                 '_token' => $token,
                 '_task' => 'login',
                 '_action' => 'login',
-                '_timezone' => 'Africa/Douala',
+                '_timezone' => '',
                 '_url' => '_task=login',
                 '_user' => $email,
                 '_pass' => $password
@@ -70,7 +70,7 @@ class RoundcubeAutoLogin
             if($response_info['http_code'] == 302)
             {
                 // find all relevant cookies to set (php session + rc auth cookie)
-                preg_match_all('/set-cookie: (.*)\b/', $response, $cookies);
+                preg_match_all('/set-cookie: (.*)\b/i', $response, $cookies);
 
                 $cookie_return = array();
 
@@ -147,7 +147,7 @@ $rcpass=$_REQUEST['rc_pass'];
 
 
 // set your roundcube domain path
-$rc = new RoundcubeAutoLogin('https://webmail.kmail.africa/');
+$rc = new RoundcubeAutoLogin('https://www.example.com/');
 
 $cookies = $rc->login($rcuser, $rcpass);
 
